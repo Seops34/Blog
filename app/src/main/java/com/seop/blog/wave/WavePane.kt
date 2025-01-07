@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.sqrt
 
 @Composable
-fun AsIsWavePane() {
+fun WavePane() {
     val configuration = LocalConfiguration.current
     val density = LocalDensity.current
 
@@ -97,8 +97,8 @@ fun AsIsWavePane() {
 
 @Preview
 @Composable
-private fun PreviewAsIsWavePane() {
+private fun PreviewWavePane() {
     MaterialTheme {
-        AsIsWavePane()
+        WavePane()
     }
 }
