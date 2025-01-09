@@ -6,34 +6,22 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
-import kotlin.math.sqrt
 
 @Composable
 fun WavePane() {
-    val configuration = LocalConfiguration.current
-    val density = LocalDensity.current
-
-    // 피타고라스 정리를 이용하여 화면을 채울 수 있는 원의 반지를 계산한다.
-    val radius = remember {
-        val width = with(density) { configuration.screenWidthDp.dp.toPx() }
-        val height = with(density) { configuration.screenHeightDp.dp.toPx() }
-        sqrt(width * width + height * height) / 2
-    }
-
     val progress1 = remember { Animatable(0f) }
     val progress2 = remember { Animatable(0f) }
 
@@ -74,23 +62,19 @@ fun WavePane() {
     ) {
         Box(
             modifier = Modifier
-                .drawBehind {
-                    drawCircle(
-                        color = Color.White,
-                        radius = radius * progress1.value,
-                        alpha = (1f - progress1.value)
-                    )
-                }
+                .size(size = 300.dp * progress1.value)
+                .background(
+                    color = Color.White.copy(alpha = 1f - progress1.value),
+                    shape = CircleShape
+                )
         )
         Box(
             modifier = Modifier
-                .drawBehind {
-                    drawCircle(
-                        color = Color.White,
-                        radius = radius * progress2.value,
-                        alpha = (1f - progress2.value)
-                    )
-                }
+                .size(size = 300.dp * progress2.value)
+                .background(
+                    color = Color.White.copy(alpha = 1f - progress1.value),
+                    shape = CircleShape
+                )
         )
     }
 }
